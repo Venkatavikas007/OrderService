@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order-service
+  name: orderservice
   labels:
-    app: order-service
+    app: orderservice
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: order-service
+      app: orderservice
   template:
     metadata:
       labels:
-        app: order-service
+        app: orderservice
     spec:
       containers:
-        - name: order-service
-          image: vikas079/order-service:latest
+        - name: orderservice
+          image: vikas079/orderservice:latest
           ports:
             - containerPort: 8080
