@@ -12,49 +12,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Entity.Order;
 import com.example.demo.Service.OrderService;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/orders")
 public class OrderController {
 
-	@Autowired
-	OrderService service;
-	
-	@GetMapping()
-	public ResponseEntity<List<Order>>getAllOrders(){
-		return ResponseEntity.ok(service.getAllOrders());
-	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity<?> getOrderById(@PathVariable Long id){
-		Order order = service.getOrderById(id);
-	    if (order != null) {
-	        return ResponseEntity.status(HttpStatus.FOUND).body(order);
-	    } else {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order was not check your id"+id);
-	    }
-	}
-	
-	@PostMapping()
-	public ResponseEntity<Order> createOrder(@RequestBody Order order){
-		 Order created=service.createOrder(order);
-		 return ResponseEntity.status(HttpStatus.CREATED).body(created);
-	}
-	
-	@PutMapping("/update")
-	public ResponseEntity<Order> updateOrder(@RequestBody Order order){
-		Order updated=service.updateOrder(order);
-		return ResponseEntity.status(HttpStatus.SWITCHING_PROTOCOLS).body(updated);
-	}
-	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteOrderById(@PathVariable Long id){
-		Order deleted= service.deleteOrderById(id);
-		return ResponseEntity.status(HttpStatus.GONE).body(deleted);
-	}
-	
+    @Autowired
+    private OrderService service;
+
+    @PostMapping
+  public Order placeOrder(@RequestBody Order order, @RequestParam String username , @RequestParam String password) {
+	return service.placeOrder(order, username, password);
+    	
+    }
+
+    @GetMapping
+    public List<Order> getAllOrders() {
+        return service.repo.findAll();
+    }
 }
+
+
